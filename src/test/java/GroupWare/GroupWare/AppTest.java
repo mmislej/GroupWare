@@ -1,4 +1,4 @@
-package testSuite;
+package GroupWare.GroupWare;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
