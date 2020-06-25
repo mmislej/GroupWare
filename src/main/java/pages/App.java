@@ -1,4 +1,4 @@
-package GroupWare.GroupWare;
+package pages;
 
 /**
  * Hello world!
