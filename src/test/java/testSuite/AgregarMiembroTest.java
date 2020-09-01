@@ -1,43 +1,39 @@
 package testSuite;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.Properties;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.openqa.selenium.By;
 
 import config.Config;
 import data.LoginData;
 import data.MemberData;
 import data.ProjectData;
-import pom.ProyectManagerPom;
 import pom.LoginPom;
+import pom.ProyectManagerPom;
 
-
-public class AltaProyectoTest {
-
+public class AgregarMiembroTest {
+	
 	ProyectManagerPom projectPage;
 
 	LoginPom loginPage;
 	
 	static Properties propL;
 	static Properties propA;
+	static Properties propM;
+	
 	@BeforeAll
 	public static void beforeAll() {
 		propL = Config.get(Config.CASOS_LOGIN);
 		propA = Config.get(Config.CASOS_ALTAPROYECTO);
+		propM = Config.get(Config.CASOS_AGREGARMIEMBRO);
 
 	}
 
-	
 	@BeforeEach
 	public void startSelenium() {
 		loginPage = new LoginPom();
@@ -52,29 +48,24 @@ public class AltaProyectoTest {
 	public void stopSelenium() {
 		loginPage.close();
 	}
-
-	// Test alta proyecto
 	
-	@Test
-	public void altaProyectoTest() throws InterruptedException {
-
-		projectPage.irAlta();
-		ProjectData data = ProjectData.get(1, propA);
-		projectPage.completaData(data);
-		assertEquals("Project saved", projectPage.saveMessage());
-	}
-	//este rompe cuando va a validar mensaje de error no encuentra xpath utilizado
-	@Test
-	public void altaProyectoTituloVacioTest() {
-		
-		projectPage.irAlta();
-		ProjectData data = ProjectData.get(3, propA);
-		projectPage.completaData(data);
-		assertEquals("Field must not be empty !!!", projectPage.emptyMessage());
-		
-		
-	}
-
+	// Test agregar miembros
 	
+		@Test
+		public void agregarMiembroTest() throws InterruptedException {
+			ProjectData data = ProjectData.get(1, propA);
+			MemberData dataM = MemberData.get(1, propM);
+			projectPage.buscarProyecto(data);
+			projectPage.irEdit();
+			projectPage.irMembers();
+			projectPage.memberDataCompleta(dataM);
+			assertEquals("Project saved", projectPage.saveMessage());
+			// para validar que se agrego miembro
+			projectPage.reBuscarProyecto();
+			projectPage.irView();
+			projectPage.irMembers();
+			assertEquals(dataM.member, projectPage.memberName());
+		}
+
 
 }

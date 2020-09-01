@@ -1,35 +1,59 @@
 package pom;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.Duration;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import config.Config;
+
+//Clase de seteo 
 
 public abstract class BasePom {
 
 	protected static WebDriver driver = null;
 
+	// Constructor driver
 	protected void open() {
 		if (driver == null) {
-
-			System.setProperty("webdriver.chrome.driver",
-					"C:\\Users\\Majulera\\Desktop\\EclipseWorkbench\\GroupWare\\Tema_5_en_adelante\\GroupWare\\lib\\chromedriver.exe");
-			driver = new ChromeDriver();
+			Properties config = Config.get(Config.GENERAL);
+			String browser = config.getProperty("browser", "Browser no definido");
+			if ("chrome".equals(browser)) {
+				System.setProperty("webdriver.chrome.driver",
+						"C:\\Users\\Majulera\\Desktop\\EclipseWorkbench\\GroupWare\\Tema_5_en_adelante\\GroupWare\\lib\\chromedriver.exe");
+				driver = new ChromeDriver();
+			} else if ("firefox".equals(browser)) {
+				System.out.println("Firefox");
+				System.setProperty("webdriver.gecko.driver",
+						"C:\\Users\\Majulera\\Desktop\\EclipseWorkbench\\GroupWare\\Tema_5_en_adelante\\GroupWare\\lib\\geckodriver.exe");
+				driver = new FirefoxDriver();
+			} else {
+				throw new IllegalArgumentException("El navegador " + browser + " no es soportado");
+			}
 			waitTime(3);
+
 		}
 
 	}
 
+	// Método de espera puede cambiar la unidad de tiempo
 	public void waitTime(int i) {
 		waitTime(Duration.ofSeconds(i));
-		
+
 	}
 
+	// Método de espera base
 	public void waitTime(Duration duration) {
 
 		try {
@@ -44,11 +68,29 @@ public abstract class BasePom {
 		}
 	}
 
+	// Método cerrar driver
 	public void close() {
 		if (driver != null) {
 			driver.close();
 			driver = null;
 		}
+	}
+
+	public static void readPropertiesFile() {
+		Properties prop = new Properties();
+		try {
+			InputStream input = new FileInputStream("src\\test\\resources\\config.properties");
+			prop.load(input);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public void browserConfig() {
+
 	}
 
 }
