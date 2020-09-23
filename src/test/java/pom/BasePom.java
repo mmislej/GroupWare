@@ -8,11 +8,15 @@ import java.time.Duration;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.UnexpectedAlertBehaviour;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -29,23 +33,33 @@ public abstract class BasePom {
 		if (driver == null) {
 			Properties config = Config.get(Config.GENERAL);
 			String browser = config.getProperty("browser", "Browser no definido");
+			
+			String driverRootChrome = config.getProperty("driverRootChrome", "Ruta no definida");
+			String driverRootFirefox = config.getProperty("driverRootFirefox", "Ruta no definida");
+			
+			DesiredCapabilities dc = new DesiredCapabilities();
+			dc.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.ACCEPT);
+			
 			if ("chrome".equals(browser)) {
-				System.setProperty("webdriver.chrome.driver",
-						"C:\\Users\\Majulera\\Desktop\\EclipseWorkbench\\GroupWare\\Tema_5_en_adelante\\GroupWare\\lib\\chromedriver.exe");
-				driver = new ChromeDriver();
+				System.setProperty("webdriver.chrome.driver", driverRootChrome);
+				driver = new ChromeDriver(dc);
 			} else if ("firefox".equals(browser)) {
 				System.out.println("Firefox");
-				System.setProperty("webdriver.gecko.driver",
-						"C:\\Users\\Majulera\\Desktop\\EclipseWorkbench\\GroupWare\\Tema_5_en_adelante\\GroupWare\\lib\\geckodriver.exe");
-				driver = new FirefoxDriver();
+				System.setProperty("webdriver.gecko.driver", driverRootFirefox);
+				driver = new FirefoxDriver(dc);
 			} else {
 				throw new IllegalArgumentException("El navegador " + browser + " no es soportado");
 			}
 			waitTime(3);
 
 		}
+		
+			
 
 	}
+
+	
+	
 
 	// Método de espera puede cambiar la unidad de tiempo
 	public void waitTime(int i) {
@@ -89,8 +103,6 @@ public abstract class BasePom {
 
 	}
 
-	public void browserConfig() {
-
-	}
+	
 
 }

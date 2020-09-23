@@ -18,7 +18,8 @@ public class ProyectManagerPom extends BasePom {
 
 		// Click al Botón add
 		driver.findElement(By.id("exec[add]")).click();
-		assertEquals("ProjectManager - Add project", driver.findElement(By.id("divAppboxHeader")).getText());
+		// assertEquals("ProjectManager - Add project",
+		// driver.findElement(By.id("divAppboxHeader")).getText());
 		// Ingresar datos
 
 	}
@@ -27,6 +28,10 @@ public class ProyectManagerPom extends BasePom {
 	public void completaData(ProjectData data) {
 		this.completaData(data.title, data.startDate, data.endDate, data.times, data.timeUnit, data.status);
 
+	}
+
+	public String altaMensaje() {
+		return driver.findElement(By.id("divAppboxHeader")).getText();
 	}
 
 	// Ingresa datos de alta de proyecto
@@ -45,7 +50,7 @@ public class ProyectManagerPom extends BasePom {
 
 	// Toma mensaje al guardar para luego validar en tests
 	public String saveMessage() {
-
+		waitTime(3);
 		return driver.findElement(By.id("msg")).getText();
 	}
 
@@ -69,36 +74,48 @@ public class ProyectManagerPom extends BasePom {
 		waitTime(3);
 		driver.findElement(By.name("exec[nm][search]")).sendKeys(title);
 		driver.findElement(By.name("exec[nm][start_search]")).click();
+		System.out.println("entra en metodo búsqueda");
 		waitTime(3);
-		assertEquals(title, driver.findElement(By.id("1[pm_title]")).getText());
+
+		// assertEquals(title, driver.findElement(By.id("1[pm_title]")).getText());
 
 	}
-	//Rebuscar proyecto
+
+	public String validaTitle() {
+		return driver.findElement(By.id("1[pm_title]")).getText();
+	}
+
+	// Rebuscar proyecto
 	public void reBuscarProyecto() {
 		driver.findElement(By.name("exec[nm][start_search]")).click();
 	}
-	
-	// click al botón View
-	public void irView() {
 
+	public void irView(ProjectData data) {
+		this.irView(data.title);
+	}
+
+	// click al botón View
+	public void irView(String title) {
+		System.out.println("entra en metodo búsqueda de botón");
 		waitTime(3);
-		driver.findElement(By.id(
-				"exec[nm][rows][view][2118]"))
+		driver.findElement(By.xpath(
+				"//*[@id=\"divAppbox\"]/table/tbody/tr/td/form/table/tbody/tr[1]/td/table/tbody/tr[3]/td/table/tbody/tr[2]/td[2]/a/span[text()='"
+						+ title + "']/../../../td[11]/table/tbody/tr/td/a/img[@title='View']"))
 				.click();
+		waitTime(3);
 
 	}// click al botón View prueba agregar miembro
+
 	public void irView2() {
 
 		waitTime(3);
-		driver.findElement(By.id(
-				"exec[nm][rows][view][2118]"))
-				.click();
+		driver.findElement(By.id("exec[nm][rows][view][2118]")).click();
 
 	}
 
 	// Toma mensaje de ver proyecto para luego validar en tests
 	public String verMessage() {
-
+		waitTime(3);
 		return driver.findElement(By.id("divAppboxHeader")).getText();
 	}
 
@@ -107,6 +124,7 @@ public class ProyectManagerPom extends BasePom {
 
 		waitTime(3);
 		driver.findElement(By.xpath(
+
 				"/html/body/div[3]/div[4]/table/tbody/tr/td[2]/div[2]/table/tbody/tr/td/form/table/tbody/tr[1]/td/table/tbody/tr[3]/td/table/tbody/tr[2]/td[11]/table/tbody/tr/td[3]/a"))
 				.click();
 	}

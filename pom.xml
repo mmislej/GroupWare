@@ -38,7 +38,7 @@
 			<version>3.141.59</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-suite-api -->
+	<!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-suite-api -->
 		<dependency>
 			<groupId>org.junit.platform</groupId>
 			<artifactId>junit-platform-suite-api</artifactId>

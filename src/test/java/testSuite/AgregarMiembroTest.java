@@ -7,6 +7,7 @@ import java.util.Properties;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import config.Config;
@@ -17,15 +18,15 @@ import pom.LoginPom;
 import pom.ProyectManagerPom;
 
 public class AgregarMiembroTest {
-	
+
 	ProyectManagerPom projectPage;
 
 	LoginPom loginPage;
-	
+
 	static Properties propL;
 	static Properties propA;
 	static Properties propM;
-	
+
 	@BeforeAll
 	public static void beforeAll() {
 		propL = Config.get(Config.CASOS_LOGIN);
@@ -48,24 +49,23 @@ public class AgregarMiembroTest {
 	public void stopSelenium() {
 		loginPage.close();
 	}
-	
-	// Test agregar miembros
-	
-		@Test
-		public void agregarMiembroTest() throws InterruptedException {
-			ProjectData data = ProjectData.get(1, propA);
-			MemberData dataM = MemberData.get(1, propM);
-			projectPage.buscarProyecto(data);
-			projectPage.irEdit();
-			projectPage.irMembers();
-			projectPage.memberDataCompleta(dataM);
-			assertEquals("Project saved", projectPage.saveMessage());
-			// para validar que se agrego miembro
-			projectPage.reBuscarProyecto();
-			projectPage.irView();
-			projectPage.irMembers();
-			assertEquals(dataM.member, projectPage.memberName());
-		}
 
+	// Test agregar miembros
+	//@Tag("run")
+	@Test
+	public void testAgregarMiembro() throws InterruptedException {
+		ProjectData data = ProjectData.get(2, propA);
+		MemberData dataM = MemberData.get(2, propM);
+		projectPage.buscarProyecto(data);
+		projectPage.irEdit();
+		projectPage.irMembers();
+		projectPage.memberDataCompleta(dataM);
+		assertEquals("Project saved", projectPage.saveMessage());
+		// para validar que se agrego miembro
+		projectPage.reBuscarProyecto();
+		projectPage.irView(data);
+		projectPage.irMembers();
+		assertEquals(dataM.member, projectPage.memberName());
+	}
 
 }

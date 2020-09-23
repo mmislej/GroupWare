@@ -46,7 +46,7 @@ public class LoginTest {
 
 	// Prueba login
 	@Test
-	public void verificaLogin() throws InterruptedException {
+	public void testVerificaLogin() throws InterruptedException {
 		LoginData data = LoginData.get(1, prop);
 
 		page.login(data);
@@ -61,7 +61,7 @@ public class LoginTest {
 
 	// Prueba Logout
 	@Test
-	public void verificaLogout() throws InterruptedException {
+	public void testVerificaLogout() throws InterruptedException {
 		LoginData data = LoginData.get(2, prop);
 
 		page.login(data.usuario, data.contraseña);

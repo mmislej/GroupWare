@@ -1,5 +1,6 @@
 package pom;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.openqa.selenium.By;
@@ -11,8 +12,8 @@ import data.LoginData;
 
 public class LoginPom extends BasePom {
 
-	//Abre página E groupware
-	
+	// Abre página E groupware
+
 	public LoginPom() {
 
 		open();
@@ -20,7 +21,7 @@ public class LoginPom extends BasePom {
 		waitTime(3);
 
 	}
-	
+
 	// Método loguea la cuenta
 
 	public void login(String usuario, String clave) {
@@ -30,7 +31,7 @@ public class LoginPom extends BasePom {
 		driver.findElement(By.name("submitit")).click();
 		waitTime(3);
 	}
-	
+
 	// Desloguea la cuenta
 
 	public void logout() {
@@ -38,15 +39,16 @@ public class LoginPom extends BasePom {
 		waitTime(3);
 
 	}
-	
+
 	// Búsca elemento logout
 
 	public String logoutMessage() {
 
 		return driver.findElement(By.id("loginCdMessage")).getText();
 	}
-
 	
+	
+
 	// obtiene contenido elemento para validar nombre de usuario
 	public String getContenido() {
 
@@ -58,18 +60,23 @@ public class LoginPom extends BasePom {
 
 		// Click al botón de proyecto
 		driver.findElement(By.xpath("/html/body/div[3]/div[2]/table/tbody/tr/td[2]/table/tbody/tr[1]/td[4]/a")).click();
-
+		assertEquals("ProjectManager - Projectlist", driver.findElement(By.id("divAppboxHeader")).getText());
 		return new ProyectManagerPom();
 	}
-	
+
 	// Click al botón de página de agenda
-		public static AgendaPom getAgendasPage() {
+	public static AgendaPom getAgendasPage() {
 
-			// Click al botón de proyecto
-			driver.findElement(By.xpath("/html/body/div[3]/div[2]/table/tbody/tr/td[2]/table/tbody/tr[1]/td[2]/a")).click();
+		driver.findElement(By.xpath("/html/body/div[3]/div[2]/table/tbody/tr/td[2]/table/tbody/tr[1]/td[2]/a")).click();
+		String actualString = driver.findElement(By.xpath("//*[@id=\"divAppboxHeader\"]")).getText();
 
-			return new AgendaPom();
-		}
+		String expectedString = "Addressbook";
+
+		assertTrue(actualString.contains(expectedString));
+
+		return new AgendaPom();
+
+	}
 
 	// trae datos de la clase LoginData (Clase biblioteca)
 	public void login(LoginData data) {
