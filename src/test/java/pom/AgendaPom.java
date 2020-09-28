@@ -27,7 +27,7 @@ public class AgendaPom extends BasePom {
 
 		parentWinHandle = driver.getWindowHandle();
 		waitTime(3);
-		
+
 		driver.findElement(By.id("exec[nm][add]")).click();
 		waitTime(3);
 		Set<String> winHandles = driver.getWindowHandles();
@@ -35,7 +35,7 @@ public class AgendaPom extends BasePom {
 		System.out.println("Cantidad de ventanas " + winHandles.size());
 		// Loop through all handles
 		for (String handle : winHandles) {
-			
+
 			if (!handle.equals(parentWinHandle)) {
 				driver.switchTo().window(handle);
 			}
@@ -46,52 +46,56 @@ public class AgendaPom extends BasePom {
 	}
 
 	public void cambioAgendaRetorno() {
-	
-		
+
 		driver.switchTo().window(parentWinHandle);
 
 	}
 
-	public void popUpCompletar(String first_name, String last_name) {
+	public void eliminarContacto(String first_name, String last_name) {
+		waitTime(3);
+
+		driver.findElement(By.xpath("//*[@id=\"exec[nm][rows][1][id]\"]/tbody/tr[1]/td/span[text()='" + last_name.trim()
+				+ ", " + first_name.trim() + "']/../../../../../../td[6]/table/tbody/tr/td/a/img[@title=\"Delete\"]"))
+				.click();
+
+	}
+
+	public void eliminarContacto(ContactData data) {
+		this.eliminarContacto(data.first_name, data.last_name);
+
+	}
+
+	public void verContacto(String first_name, String last_name) {
 		waitTime(3);
 		parentWinHandle = driver.getWindowHandle();
-		
-		
-			driver.findElement(By.xpath(
-					"//*[@id=\"exec[nm][rows][1][id]\"]/tbody/tr[1]/td/span[text()='"+last_name.trim()+", "+first_name.trim()+"']/../../../../../../td[6]/table/tbody/tr/td/a/img[@title=\"Delete\"]"))
-					.click();
-		
-		
-	
-		  
-		        
-			
-		     
-		    }
-	public void popUpCompletar(ContactData data) {
-		this.popUpCompletar(data.first_name, data.last_name);
-		
-	}	      
-		    
-		
-		
-		
+
+		driver.findElement(By.xpath("//*[@id=\"exec[nm][rows][1][id]\"]/tbody/tr[1]/td/span[text()='" + last_name.trim()
+				+ ", " + first_name.trim() + "']/../../../../../../td[6]/table/tbody/tr/td/a/img[@title=\"View\"]"))
+				.click();
+
+	}
+
+	public void verContacto(ContactData data) {
+		this.verContacto(data.first_name, data.last_name);
+	}
+
 	public String validarVentanaEmergente() {
 		return driver.findElement(By.id("addressbook.edit.general-tab")).getText();
-		
+
 	}
-		
+
+	public String validarContacto() {
+		waitTime(3);
+		return driver.findElement(By.xpath("//*[@id=\"divAppbox\"]/table/tbody/tr/td/form[1]/div/table/tbody/tr[1]/td[1]")).getText();
+	}
+
 	public void validaSave() {
 		driver.findElement(By.id("exec[button][save]")).getText();
-	}	
-
-	
-
-
+	}
 
 	public void buscarContacto(String first_name) {
 		waitTime(3);
-		//System.out.println("entra en metodo búsqueda");
+
 		driver.findElement(By.name("exec[nm][search]")).sendKeys(first_name);
 		driver.findElement(By.name("exec[nm][start_search]")).click();
 
@@ -117,23 +121,19 @@ public class AgendaPom extends BasePom {
 		waitTime(3);
 
 		driver.findElement(By.name("exec[n_fn]")).click();
-		driver.findElement(By.name("exec[n_prefix]")).sendKeys(prefix);
-		driver.findElement(By.name("exec[n_given]")).sendKeys(first_name);
-		driver.findElement(By.name("exec[n_middle]")).sendKeys(middle_Name);
-		driver.findElement(By.name("exec[n_family]")).sendKeys(last_name);
-		driver.findElement(By.name("exec[n_suffix]")).sendKeys(suffix);
+		driver.findElement(By.name("exec[n_prefix]")).sendKeys(prefix.trim());
+		driver.findElement(By.name("exec[n_given]")).sendKeys(first_name.trim());
+		driver.findElement(By.name("exec[n_middle]")).sendKeys(middle_Name.trim());
+		driver.findElement(By.name("exec[n_family]")).sendKeys(last_name.trim());
+		driver.findElement(By.name("exec[n_suffix]")).sendKeys(suffix.trim());
 		driver.findElement(
 				By.xpath("//*[@id=\"addressbook.edit.general\"]//table[@class=\"editname\"]//*[@id=\"exec[]\"]"))
 				.click();
-
-		
 
 		waitTime(3);
 		driver.findElement(By.name("exec[title]")).sendKeys(title);
 		driver.findElement(By.name("exec[role]")).sendKeys(role);
 		driver.findElement(By.name("exec[room]")).sendKeys(room);
-
-		
 
 		driver.findElement(By.name("exec[org_name]")).sendKeys(organisation);
 		driver.findElement(By.name("exec[org_unit]")).sendKeys(department);
@@ -141,25 +141,19 @@ public class AgendaPom extends BasePom {
 		driver.findElement(By.name("exec[adr_one_locality]")).sendKeys(city);
 		driver.findElement(By.name("exec[adr_one_postalcode]")).sendKeys(postalCode);
 		driver.findElement(By.name("exec[adr_one_countryname]")).sendKeys(country);
-		
 
 		driver.findElement(By.name("exec[tel_work]")).sendKeys(business);
 		driver.findElement(By.name("exec[tel_cell]")).sendKeys(mobile_phone);
 		driver.findElement(By.name("exec[tel_home]")).sendKeys(prIvate);
-
-	
 
 		driver.findElement(By.name("exec[url]")).sendKeys(url);
 		driver.findElement(By.name("exec[url_home]")).sendKeys(privAte);
 		driver.findElement(By.name("exec[email]")).sendKeys(e_mail);
 		driver.findElement(By.name("exec[email_home]")).sendKeys(privatE);
 
-		
-
 		waitTime(3);
 		driver.findElement(By.name("exec[button][save]")).click();
 
-		
 	}
 
 	// toma mensaje
@@ -168,7 +162,5 @@ public class AgendaPom extends BasePom {
 		return driver.findElement(By.id("msg")).getText();
 
 	}
-
-	
 
 }

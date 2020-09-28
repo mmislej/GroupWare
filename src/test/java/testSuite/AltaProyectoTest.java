@@ -52,6 +52,7 @@ public class AltaProyectoTest {
 
 	@AfterEach
 	public void stopSelenium() {
+		projectPage.eliminarProyecto();
 		loginPage.close();
 	}
 
@@ -65,6 +66,8 @@ public class AltaProyectoTest {
 		ProjectData data = ProjectData.get(1, propA);
 		projectPage.completaData(data);
 		assertEquals("Project saved", projectPage.saveMessage());
+		projectPage.buscarProyecto(data);
+		assertEquals(data.title, projectPage.validaTitle());
 	}
 
 	

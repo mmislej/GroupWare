@@ -55,13 +55,12 @@ public class EliminarContactoTest {
 	@Tag("run")
 	@Test
 	public void testEliminarContacto() throws InterruptedException {
-		//System.out.println("prueba eliminar");
 		ContactData data = ContactData.get(1, propC);
-		agendaPage.popUpCompletar(data);
-		//System.out.println("prueba eliminar fin");
+		//agendaPage.buscarContacto(data);
+		agendaPage.eliminarContacto(data);
 		assertEquals("1 contact(s) deleted", agendaPage.redMessage());
 
 	}
-	// parametrizar xpath para campo nombre y apellido
+	
 
 }

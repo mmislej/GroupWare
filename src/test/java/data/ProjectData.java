@@ -11,6 +11,7 @@ public class ProjectData {
 	public String timeUnit;
 	public String status;
 
+
 	// Constructor
 	private ProjectData(String tit, String start, String end, String time, String timeU, String stat) {
 
@@ -20,6 +21,7 @@ public class ProjectData {
 		this.times = time;
 		this.timeUnit = timeU;
 		this.status = stat;
+		
 
 	}
 
@@ -33,6 +35,7 @@ public class ProjectData {
 		data.times = prop.getProperty("times_" + n);
 		data.timeUnit = prop.getProperty("timeUnit_" + n);
 		data.status = prop.getProperty("status_" + n);
+		
 
 		return data;
 

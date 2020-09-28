@@ -58,11 +58,13 @@ public class AgregarContactoTest {
 		agendaPage.contactDataCompleta(data);
 		agendaPage.cambioAgendaRetorno();
 		assertEquals("Contact saved", agendaPage.redMessage());
+		agendaPage.verContacto(data);
+		assertEquals(data.organisation+": "+data.last_name.trim()+", "+data.first_name.trim(), agendaPage.validarContacto());
+		
 
 	}
 	
-	//verificar asserts en cada paso
-	//completar datos de ingreso de contracto en archivo
+
 	
 	
 	

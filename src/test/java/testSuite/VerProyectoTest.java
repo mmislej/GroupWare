@@ -60,8 +60,12 @@ public class VerProyectoTest {
 		assertEquals(data.title, projectPage.validaTitle());
 		projectPage.irView(data);
 		assertEquals("ProjectManager - View project", projectPage.verMessage());
+		assertEquals(data.title, projectPage.proyectoViewValidaTitle());
+		assertEquals(data.startDate, projectPage.proyectoViewValidaStartDate());
+		assertEquals(data.endDate, projectPage.proyectoViewValidaEndDate());
+		assertEquals(data.status+"%", projectPage.proyectoViewValidaStatus());
 	}
 	
-	//parametrizar xpath de obtención de boton view para sacarlo del archivo
+
 
 }
