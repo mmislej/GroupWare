@@ -61,28 +61,10 @@ public class LoginPom extends BasePom {
 		
 	}
 	
-	// trae datos de la clase LoginData (Clase biblioteca)
-	/*	public void login(LoginData data) {
-			//this.login(data.usuario, data.contraseña, data.eleUsuario, data.eleContraseña, data.eleLogin);
-			this.ingresaUsuario(data.usuario, data.eleUsuario);
-			this.ingresaPass(data.contraseña, data.eleContraseña);
-			this.clickLogin(data.eleLogin);
-		}*/
 	
 	
 //-----------------------------------------------------------------------------------------------------------------------------------------------------	
 	
-	// Método loguea la cuenta
-
-	/*public void login(String usuario, String clave, String eleuser, String elePass, String eleLogin) {
-		
-		
-
-		driver.findElement(By.name(eleuser)).sendKeys(usuario);
-		driver.findElement(By.name(elePass)).sendKeys(clave);
-		driver.findElement(By.name(eleLogin)).click();
-		waitTime(3);
-	}*/
 
 	// LOGOUT
 
@@ -138,19 +120,6 @@ public class LoginPom extends BasePom {
 	}
 	
 
-	// Click al botón de página de agenda
-	public static AgendaPom getAgendasPage() {
-
-		driver.findElement(By.xpath("/html/body/div[3]/div[2]/table/tbody/tr/td[2]/table/tbody/tr[1]/td[2]/a")).click();
-		String actualString = driver.findElement(By.xpath("//*[@id=\"divAppboxHeader\"]")).getText();
-
-		String expectedString = "Addressbook";
-
-		assertTrue(actualString.contains(expectedString));
-
-		return new AgendaPom();
-
-	}
 	
 	
 	public void  goAgendaPage(String eleBotonAgenda,String validaAgendaPage,String stringEsperadoAgenda) {
