@@ -139,7 +139,7 @@ public class LoginPom extends BasePom {
 		this.goAgendaPage(data.eleBotonAgenda, data.validaAgendaPage,data.stringEsperadoAgenda);
 	}
 	
-	public static  AgendaPom getAgendaPage() {
+	public static  AgendaPom getAgendasPage() {
 	
 		return new AgendaPom();
 	}
