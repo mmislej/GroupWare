@@ -11,6 +11,10 @@ import data.LoginData;
 // Clase Page object para Login
 
 public class LoginPom extends BasePom {
+	
+	public String usuario;
+	
+	 
 
 	// Abre página E groupware
 
@@ -21,48 +25,118 @@ public class LoginPom extends BasePom {
 		waitTime(3);
 
 	}
-
+	
+//-----------------------------------------------------------------------------------------------------------------------------------------------------	
+	//Login
+	public void ingresaUsuario(String usuario, String eleuser) {
+		
+		driver.findElement(By.name(eleuser)).sendKeys(usuario);
+		waitTime(2);
+	}
+	
+	public void ingresaPass(String clave, String elePass) {
+		
+		driver.findElement(By.name(elePass)).sendKeys(clave);
+		waitTime(2);
+	}
+	
+	public void clickLogin(String eleLogin) {
+		
+		driver.findElement(By.name(eleLogin)).click();
+		waitTime(3);	
+	}
+	
+	
+	public void ingresaUsuario(LoginData data) {
+		this.ingresaUsuario(data.usuario, data.eleUsuario);	
+		
+	}
+	
+	public void ingresaPass(LoginData data) {
+		this.ingresaPass(data.contraseña, data.eleContraseña);	
+		
+	}
+	public void clickLogin(LoginData data) {
+		this.clickLogin(data.eleLogin);
+		
+	}
+	
+	// trae datos de la clase LoginData (Clase biblioteca)
+	/*	public void login(LoginData data) {
+			//this.login(data.usuario, data.contraseña, data.eleUsuario, data.eleContraseña, data.eleLogin);
+			this.ingresaUsuario(data.usuario, data.eleUsuario);
+			this.ingresaPass(data.contraseña, data.eleContraseña);
+			this.clickLogin(data.eleLogin);
+		}*/
+	
+	
+//-----------------------------------------------------------------------------------------------------------------------------------------------------	
+	
 	// Método loguea la cuenta
 
-	public void login(String usuario, String clave) {
+	/*public void login(String usuario, String clave, String eleuser, String elePass, String eleLogin) {
+		
+		
 
-		driver.findElement(By.name("login")).sendKeys(usuario);
-		driver.findElement(By.name("passwd")).sendKeys(clave);
-		driver.findElement(By.name("submitit")).click();
+		driver.findElement(By.name(eleuser)).sendKeys(usuario);
+		driver.findElement(By.name(elePass)).sendKeys(clave);
+		driver.findElement(By.name(eleLogin)).click();
 		waitTime(3);
-	}
+	}*/
 
-	// Desloguea la cuenta
+	// LOGOUT
 
-	public void logout() {
-		driver.findElement(By.linkText("Logout")).click();
+	public void logout(String eleLogout) {
+		driver.findElement(By.linkText(eleLogout)).click();
 		waitTime(3);
+	}	
+		public void logout(LoginData data) {
+			this.logout(data.eleLogout);	
 
 	}
-
+//-----------------------------------------------------------------------------------------------------------------------------------------------------	
 	// Búsca elemento logout
 
-	public String logoutMessage() {
+	public String logoutMessage(String eleLogoutMessage) {
 
-		return driver.findElement(By.id("loginCdMessage")).getText();
+		return driver.findElement(By.id(eleLogoutMessage)).getText();
 	}
 	
+	public void logoutMessage(LoginData data) {
+		this.logoutMessage(data.eleLogoutMessage);
 	
+	}
 
 	// obtiene contenido elemento para validar nombre de usuario
-	public String getContenido() {
+	public String getContenido(String eleTopMenu) {
 
-		return driver.findElement(By.id("topmenu")).getText();
+		return driver.findElement(By.id(eleTopMenu)).getText();
 	}
-
+	
+	public String getContenido(LoginData data) {
+		return this.getContenido(data.eleTopmenu);
+	
+	}
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
 	// Click al botón de página de gestión de los proyectos
-	public static ProyectManagerPom getProjectsPage() {
+	public void  goProyectPage(String eleBotonProyecto,String validaProyectPage,String eleValidaProyect) {
 
 		// Click al botón de proyecto
-		driver.findElement(By.xpath("/html/body/div[3]/div[2]/table/tbody/tr/td[2]/table/tbody/tr[1]/td[4]/a")).click();
-		assertEquals("ProjectManager - Projectlist", driver.findElement(By.id("divAppboxHeader")).getText());
+		waitTime(3);
+		driver.findElement(By.xpath(eleBotonProyecto)).click();
+		assertEquals(validaProyectPage, driver.findElement(By.id(eleValidaProyect)).getText());
+	
+	}
+	
+	public void goProyectPage(LoginData data) {
+		this.goProyectPage(data.eleBotonProyecto, data.validaProyectPage,data.eleValidaProyect);
+	}
+	
+	public static  ProyectManagerPom getProjectsPage() {
+	
 		return new ProyectManagerPom();
 	}
+	
 
 	// Click al botón de página de agenda
 	public static AgendaPom getAgendasPage() {
@@ -77,11 +151,30 @@ public class LoginPom extends BasePom {
 		return new AgendaPom();
 
 	}
+	
+	
+	public void  goAgendaPage(String eleBotonAgenda,String validaAgendaPage,String stringEsperadoAgenda) {
 
-	// trae datos de la clase LoginData (Clase biblioteca)
-	public void login(LoginData data) {
-		this.login(data.usuario, data.contraseña);
+		// Click al botón de proyecto
+		driver.findElement(By.xpath(eleBotonAgenda)).click();
+		String actualString = driver.findElement(By.xpath(validaAgendaPage)).getText();
 
+		String expectedString = stringEsperadoAgenda;
+
+		assertTrue(actualString.contains(expectedString));
+
+		
 	}
+	
+	public void goAgendaPage(LoginData data) {
+		this.goAgendaPage(data.eleBotonAgenda, data.validaAgendaPage,data.stringEsperadoAgenda);
+	}
+	
+	public static  AgendaPom getAgendaPage() {
+	
+		return new AgendaPom();
+	}
+
+	
 
 }

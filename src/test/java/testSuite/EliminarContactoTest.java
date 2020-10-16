@@ -25,25 +25,30 @@ public class EliminarContactoTest {
 
 	static Properties propL;
 	static Properties propC;
-
+	static Properties eleProp;
+	
 	@BeforeAll
 	public static void beforeAll() {
-		System.out.println("entra en metodo carga de archivos");
+		
 		propL = Config.get(Config.CASOS_LOGIN);
 		propC = Config.get(Config.CASOS_AGREGARCONTACTO);
-		//System.out.println("sale en metodo carga de archivos");
+		eleProp = Config.get(Config.ELEMENTOS);
+		
 	}
 
 	@BeforeEach
 	public void startSelenium() {
-		//System.out.println("metodo navegación a agenda");
+		
 		loginPage = new LoginPom();
-		LoginData data = LoginData.get(1, propL);
-		loginPage.login(data.usuario, data.contraseña);
-		String contenido = loginPage.getContenido();
+		LoginData data = LoginData.get(1, propL, eleProp);
+		loginPage.ingresaUsuario(data);
+		loginPage.ingresaPass(data);
+		loginPage.clickLogin(data);
+		String contenido = loginPage.getContenido(data);
 		assertTrue(contenido.contains(data.usuario));
-		agendaPage = LoginPom.getAgendasPage();
-		//System.out.println("sale navegación a agenda");
+		loginPage.goAgendaPage(data);
+		agendaPage = loginPage.getAgendasPage();
+		
 
 	}
 
@@ -55,10 +60,10 @@ public class EliminarContactoTest {
 	@Tag("run")
 	@Test
 	public void testEliminarContacto() throws InterruptedException {
-		ContactData data = ContactData.get(1, propC);
-		//agendaPage.buscarContacto(data);
+		ContactData data = ContactData.get(1, propC, eleProp);
+		
 		agendaPage.eliminarContacto(data);
-		assertEquals("1 contact(s) deleted", agendaPage.redMessage());
+		assertEquals(agendaPage.valRedMessage(eleProp), agendaPage.redMessage(eleProp));
 
 	}
 	

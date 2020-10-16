@@ -24,10 +24,11 @@ public class LoginTest {
 	LoginPom page;
 
 	static Properties prop;
-
+	static Properties eleProp;
 	@BeforeAll
 	public static void beforeAll() {
 		prop = Config.get(Config.CASOS_LOGIN);
+		eleProp = Config.get(Config.ELEMENTOS);
 
 	}
 
@@ -47,27 +48,29 @@ public class LoginTest {
 	// Prueba login
 	@Test
 	public void testVerificaLogin() throws InterruptedException {
-		LoginData data = LoginData.get(1, prop);
+		LoginData data = LoginData.get(1, prop, eleProp);
 
-		page.login(data);
+		page.ingresaUsuario(data);
+		page.ingresaPass(data);
+		page.clickLogin(data);
+		String contenido = page.getContenido(data);
 
-		String contenido = page.getContenido();
-
-		page.logout();
+		page.logout(data);
 		assertNotNull(contenido, "El contenido de la página se encuentra vacío");
 		assertTrue(contenido.contains(data.usuario));
 
+		
 	}
 
 	// Prueba Logout
-	@Test
+	/*@Test
 	public void testVerificaLogout() throws InterruptedException {
-		LoginData data = LoginData.get(2, prop);
+		LoginData data = LoginData.get(2, prop, eleProp);
 
 		page.login(data.usuario, data.contraseña);
 		page.logout();
 
 		assertEquals("You have been successfully logged out", page.logoutMessage());
-	}
+	}*/
 
 }

@@ -26,21 +26,27 @@ public class AgregarContactoTest {
 
 	static Properties propL;
 	static Properties propC;
+	static Properties eleProp;
 
 	@BeforeAll
 	public static void beforeAll() {
 		propL = Config.get(Config.CASOS_LOGIN);
 		propC = Config.get(Config.CASOS_AGREGARCONTACTO);
+		eleProp = Config.get(Config.ELEMENTOS);
 	}
 
 	@BeforeEach
 	public void startSelenium() {
+
 		loginPage = new LoginPom();
-		LoginData data = LoginData.get(1, propL);
-		loginPage.login(data.usuario, data.contraseña);
-		String contenido = loginPage.getContenido();
+		LoginData data = LoginData.get(1, propL, eleProp);
+		loginPage.ingresaUsuario(data);
+		loginPage.ingresaPass(data);
+		loginPage.clickLogin(data);
+		String contenido = loginPage.getContenido(data);
 		assertTrue(contenido.contains(data.usuario));
-		agendaPage = LoginPom.getAgendasPage();
+		loginPage.goAgendaPage(data);
+		agendaPage = loginPage.getAgendasPage();
 
 	}
 
@@ -52,20 +58,51 @@ public class AgregarContactoTest {
 	@Tag("run")
 	@Test
 	public void testAgregarContacto() throws InterruptedException {
-		ContactData data = ContactData.get(1, propC);
-		agendaPage.cambioAgenda();
-		assertEquals("General", agendaPage.validarVentanaEmergente());
-		agendaPage.contactDataCompleta(data);
-		agendaPage.cambioAgendaRetorno();
-		assertEquals("Contact saved", agendaPage.redMessage());
-		agendaPage.verContacto(data);
-		assertEquals(data.organisation+": "+data.last_name.trim()+", "+data.first_name.trim(), agendaPage.validarContacto());
+		ContactData data = ContactData.get(1, propC, eleProp);
 		
+		agendaPage.parentHandle();
+		agendaPage.clickAddContact(data);
+		agendaPage.switchHandle();
+		
+		assertEquals(agendaPage.valPopUp(eleProp), agendaPage.validarVentanaEmergente(eleProp));
+		
+		//agendaPage.contactDataCompleta(data);
+		
+		agendaPage.clickNameBox(data);
+		agendaPage.ingresaPrefix(data);
+		agendaPage.ingresaFirstName(data);
+		agendaPage.ingresaMiddleName(data);
+		agendaPage.ingresaLastName(data);
+		agendaPage.ingresaSuffix(data);
+		agendaPage.clickOkButton(data);
+		agendaPage.ingresaTitle(data);
+		agendaPage.ingresaRole(data);
+		agendaPage.ingresaRoom(data);
+		agendaPage.ingresaOrganization(data);
+		agendaPage.ingresaDepartament(data);
+		agendaPage.ingresaStreet(data);
+		agendaPage.ingresaCity(data);
+		agendaPage.ingresaPostalCode(data);
+		agendaPage.ingresaCountry(data);
+		agendaPage.ingresaWork(data);
+		agendaPage.ingresaCellPhone(data);
+		agendaPage.ingresaPhone(data);
+		agendaPage.ingresaUrl(data);
+		agendaPage.ingresaUrlHome(data);
+		agendaPage.ingresaEmail(data);
+		agendaPage.ingresaHomeEmail(data);
+		agendaPage.clickSaveButtom(data);
+		
+		
+		
+		
+		
+		agendaPage.cambioAgendaRetorno();
+		assertEquals(agendaPage.validaMensajeSaveMessage(eleProp), agendaPage.redMessage(eleProp));
+		agendaPage.verContacto(data);
+		assertEquals(data.organisation + ": " + data.last_name.trim() + ", " + data.first_name.trim(),
+				agendaPage.validarContacto(eleProp));
 
 	}
-	
 
-	
-	
-	
 }

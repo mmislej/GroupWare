@@ -13,7 +13,7 @@ public class Config {
 	public final static String CASOS_ALTAPROYECTO = "src\\test\\resources\\casos_altaProyecto.properties";
 	public final static String CASOS_AGREGARMIEMBRO = "src\\test\\resources\\casos_agregarMiembro.properties";
 	public final static String CASOS_AGREGARCONTACTO = "src\\test\\resources\\casos_agregarContacto.properties";
-	
+	public final static String ELEMENTOS = "src\\test\\resources\\elementos.properties";
 	
 	private static Map<String, Properties> cache = new LinkedHashMap();
 
