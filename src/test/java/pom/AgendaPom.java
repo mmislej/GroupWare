@@ -22,7 +22,7 @@ public class AgendaPom extends BasePom {
 
 	public AgendaPom() {
 		open();
-		assertEquals("Addressbook [mmislej] mmislej User", driver.findElement(By.id("divAppboxHeader")).getText());
+		
 	}
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
